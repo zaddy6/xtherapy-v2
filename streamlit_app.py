@@ -7,45 +7,16 @@ import threading
 import requests
 # from client import complete
 
-api_url = "https://api.runpod.ai/v2/zzzuq960tcvv4d/runsync"
-
-import requests
+api_url = "http://122.176.153.120:5000/xyz"
 
 def complete(messages):
-    url = f'https://api.runpod.ai/v2/{endpoint_id}/runsync'
-
-    headers = {
-        'accept': 'application/json',
-        'authorization': api_key,
-        'content-type': 'application/json'
+    payload = {
+        "messages": messages
     }
-
-    data = {
-        "input": {
-            "data": messages
-        }
-    }
-
-    response = requests.post(url, headers=headers, json=data)
+    print(payload)
+    response = requests.post(api_url, json=payload)
     print(response.json())
-    return response.json().get("output")["response"]
-
-# Example usage:
-endpoint_id = 'zzzuq960tcvv4d'  # Replace with your actual endpoint ID
-api_key = 'FMBONYWTDFBEK5F9Q7W79EEJ29T3S8K95HY6VJBK'  # Replace with your actual API key
-
-
-
-# def complete(messages):
-#     payload = {
-#         "input": {
-#             "data": messages
-#         }
-#     }
-#     print(payload)
-#     response = requests.post(api_url, json=payload)
-#     print(response.json())
-#     return response.json().get("output").json().get("response")
+    return response.json().get("response")
 
 
 st.title("AI Therapy Assistant : Anna")
@@ -74,14 +45,6 @@ def load_json(filename):
     except json.JSONDecodeError:
         print(f"Error decoding JSON from the file {filename}.")
         return None
-
-def load_conversation():
-    file = "conversations_new/f03f8c17-8388-4b3e-bde8-3d316a429a22.json"
-    data = load_json(file)
-    for datum in data:
-        st.session_state.messages.append(datum)
-
-# load_conversation()
 
 def stream_data(response):
     for word in response:
