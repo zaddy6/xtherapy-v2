@@ -11,7 +11,8 @@ api_url = "http://122.176.153.120:5000/xyz"
 
 def complete(messages):
     payload = {
-        "messages": messages
+        "messages": messages,
+        "code": st.session_state.code
     }
     print(payload)
     response = requests.post(api_url, json=payload)
